@@ -11,10 +11,11 @@ namespace ProjectApi.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class ProductController : ControllerBase
 	{
 		IProductRepository _productRepository;
-	    public ProductController(IProductRepository productRepository)
+		public ProductController(IProductRepository productRepository)
 		{
 			_productRepository = productRepository;
 		}
@@ -157,10 +158,10 @@ namespace ProjectApi.Controllers
 				{
 					success = true,
 					message = $"Update Products {id} success",
-					
+
 				});
 			}
-			catch(DbUpdateException ex)
+			catch (DbUpdateException ex)
 			{
 				Console.WriteLine(ex.InnerException?.Message);
 				return BadRequest(new ApiResponse

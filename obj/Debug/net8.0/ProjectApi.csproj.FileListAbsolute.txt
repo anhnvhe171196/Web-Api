@@ -270,3 +270,4 @@ D:\Desktop\Kì 6\DotNet\2.WebAPI-NET\ProjectApi\ProjectApi\bin\Debug\net8.0\Boun
 D:\Desktop\Kì 6\DotNet\2.WebAPI-NET\ProjectApi\ProjectApi\bin\Debug\net8.0\MailKit.dll
 D:\Desktop\Kì 6\DotNet\2.WebAPI-NET\ProjectApi\ProjectApi\bin\Debug\net8.0\MimeKit.dll
 D:\Desktop\Kì 6\DotNet\2.WebAPI-NET\ProjectApi\ProjectApi\bin\Debug\net8.0\System.Formats.Asn1.dll
+D:\Desktop\Kì 6\DotNet\2.WebAPI-NET\ProjectApi\ProjectApi\obj\Debug\net8.0\ProjectApi.sourcelink.json

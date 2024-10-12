@@ -15,13 +15,18 @@ namespace ProjectApi
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
-
+			builder.Services.AddDistributedMemoryCache();
+			builder.Services.AddSession(options =>
+			{
+				options.IdleTimeout = TimeSpan.FromMinutes(10);
+				options.Cookie.HttpOnly = true;
+				options.Cookie.IsEssential = true;
+			});
 			// Add services to the container.
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddAutoMapper(typeof(Program));
 
-			// Register your repositories and services
 			builder.Services.AddScoped<ICategoryRepository, CategoryService>();
 			builder.Services.AddScoped<IAccountRepository, AccountService>();
 			builder.Services.AddScoped<IProductRepository, ProductService>();
@@ -36,14 +41,16 @@ namespace ProjectApi
 				{
 					policy.RequireRole("Admin");
 				});
-			});
-			builder.Services.AddAuthorization(options =>
-			{
 				options.AddPolicy("ManagerPolicy", policy =>
 				{
 					policy.RequireRole("Manager");
 				});
+				options.AddPolicy("CustomerPolicy", policy =>
+				{
+					policy.RequireRole("Customer");
+				});
 			});
+			
 			// Configure Swagger
 			builder.Services.AddSwaggerGen(c =>
 			{
@@ -115,6 +122,7 @@ namespace ProjectApi
 			app.UseHttpsRedirection();
 			app.UseAuthentication();
 			app.UseAuthorization();
+			app.UseSession();
 			app.MapControllers();
 			app.Run();
 		}
