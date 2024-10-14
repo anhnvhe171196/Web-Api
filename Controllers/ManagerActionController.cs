@@ -64,6 +64,22 @@ namespace ProjectApi.Controllers
 				});
 			}
 		}
+		[HttpPost("update-status-oder-by-id/{id}")]
+		public async Task<IActionResult> UpdateOrder(int id, [FromForm] StatusOrderDTO model) 
+		{
+			try
+			{
+				return Ok(await _managerAction.ChangeStatusOrder(id, model));
+			}
+			catch
+			{
+				return BadRequest(new ApiResponse
+				{
+					success = false,
+					message = "Chưa update được trạng thái"
+				});
+			}
+		}
 		[HttpDelete("remove-invoice/{id}")]
 		public async Task<IActionResult> DeleteInvoice(int id)
 		{
@@ -77,6 +93,27 @@ namespace ProjectApi.Controllers
 				{
 					success = false,
 					message = "Không xóa được invoice"
+				});
+			}
+		}
+		[HttpGet("get-all-order")]
+		public async Task<IActionResult> GetAllOrder()
+		{
+			try
+			{
+				return Ok(new ApiResponse
+				{
+					success = true,
+					message = "Lịch sử giao dịch",
+					data = await _managerAction.GetAllAsync()
+				});
+			}
+			catch
+			{
+				return Ok(new ApiResponse
+				{
+					success = false,
+					message = "không thể lấy ra được lịch sử giao dịch"
 				});
 			}
 		}

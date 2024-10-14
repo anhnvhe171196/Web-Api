@@ -12,10 +12,10 @@ namespace ProjectApi.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
 	[Authorize]
-	public class ProductController : ControllerBase
+	public class ProductsController : ControllerBase
 	{
 		IProductRepository _productRepository;
-		public ProductController(IProductRepository productRepository)
+		public ProductsController(IProductRepository productRepository)
 		{
 			_productRepository = productRepository;
 		}

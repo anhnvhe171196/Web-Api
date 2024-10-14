@@ -6,8 +6,9 @@ namespace ProjectApi.Data
 {
 	public class OrderDetail
 	{
-		[Key, ForeignKey("Order")]
-		public int OrderId { get; set; }  // OrderId is both foreign key and primary key
+		[Key]
+		[ForeignKey("Order")]
+		public int OrderId { get; set; }
 
 		public DateTime OrderDate { get; set; } = DateTime.Now;
 		public DateTime? RequireDate { get; set; }
@@ -20,9 +21,9 @@ namespace ProjectApi.Data
 
 		[Column(TypeName = "nvarchar(255)")]
 		public string? Description { get; set; }
-
-		public float Amount { get; set; }
-
+		public string? Discount { get; set; }
+		public decimal Amount { get; set; }
+		public string Status { get; set; }
 		public virtual Order Order { get; set; } = null!;
 
 	}

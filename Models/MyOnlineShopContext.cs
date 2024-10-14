@@ -25,45 +25,49 @@ namespace ProjectWebApi.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Customer>()
-				.HasOne<User>()
-				.WithOne()
-				.HasForeignKey<Customer>(c => c.Id)
-				.OnDelete(DeleteBehavior.Cascade);
+			   .HasOne<User>()
+			   .WithOne()
+			   .HasForeignKey<Customer>(c => c.Id)
+			   .OnDelete(DeleteBehavior.Cascade); // Xóa Customer cũng sẽ xóa User liên quan
 
 			modelBuilder.Entity<Product>()
 				.Property(p => p.Available)
-				.HasDefaultValue(true);
+				.HasDefaultValue(true); // Giá trị mặc định cho thuộc tính Available
 
 			modelBuilder.Entity<Order>()
 				.HasOne(o => o.Customer)
 				.WithMany(c => c.Orders)
 				.HasForeignKey(o => o.CustomerId)
-				.OnDelete(DeleteBehavior.Cascade);
+				.OnDelete(DeleteBehavior.Cascade); // Xóa Order cũng sẽ xóa các OrderProduct liên quan
 
 			modelBuilder.Entity<OrderProduct>()
-				.HasOne(od => od.Order)
+				.HasOne(op => op.Order)
 				.WithMany(o => o.OrderProducts)
-				.HasForeignKey(od => od.OrderId)
-				.OnDelete(DeleteBehavior.Cascade);
+				.HasForeignKey(op => op.OrderId)
+				.OnDelete(DeleteBehavior.Cascade); // Xóa OrderProduct khi xóa Order
+
 			modelBuilder.Entity<ImportProduct>()
 				.HasOne(ip => ip.Invoice)
 				.WithMany(i => i.ImportProducts)
 				.HasForeignKey(ip => ip.InvoiceId)
-				.OnDelete(DeleteBehavior.Cascade);
+				.OnDelete(DeleteBehavior.Cascade); // Xóa ImportProduct khi xóa Invoice
 
 			modelBuilder.Entity<ImportProduct>()
 				.HasOne(ip => ip.Product)
 				.WithMany(p => p.ImportProducts)
 				.HasForeignKey(ip => ip.ProductId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.Restrict); // Không xóa Product khi xóa ImportProduct
+
 			base.OnModelCreating(modelBuilder);
 
 			modelBuilder.Entity<User>()
 				.HasIndex(u => u.Email)
-				.IsUnique();
+				.IsUnique(); // Email phải là duy nhất
+
 			modelBuilder.Entity<Category>()
 				.HasIndex(c => c.Name)
-				.IsUnique();
+				.IsUnique(); // Tên Category phải là duy nhất
+
 			modelBuilder.Entity<ProductDetail>()
 				.HasIndex(p => p.Name)
 				.IsUnique();

@@ -111,5 +111,48 @@ namespace ProjectApi.Services
 			var user = _httpContextAccessor.HttpContext.User;
 			return user.FindFirst("Id")?.Value;
 		}
+
+		public async Task<ApiResponse> ChangeStatusOrder(int id, StatusOrderDTO model)
+		{
+			var order = await _context.OrderDetails.SingleOrDefaultAsync(o => o.OrderId == id);
+			if(order == null)
+			{
+				return new ApiResponse
+				{
+					success = true,
+					message = "Không tồn tại Order này"
+				};
+			}
+			if(order.Status == "DaHuy" || order.Status == "DaGiaoHang")
+			{
+				return new ApiResponse
+				{
+					success = true,
+					message = "Order này hiện đã hoàn thành hoặc đã bị hủy"
+				};
+			}
+			order.RequireDate = model.RequireDate;
+			order.Status = model.OrderStatus.ToString();
+			_context.OrderDetails.Update(order);
+			await _context.SaveChangesAsync();
+			return new ApiResponse
+			{
+				success = true,
+				message = "Bạn đã thay đổi trạng thái thành công"
+			};
+		}
+
+		public async Task<List<OrderDetailsDTO>> GetAllAsync()
+		{
+			var order = await _context.OrderDetails.Include(p => p.Order).ThenInclude(p => p.OrderProducts).ToListAsync();
+			List<OrderDetailsDTO> orderdetails = new List<OrderDetailsDTO>();
+			foreach (var item in order)
+			{
+				var orderdetail = _mapper.Map<OrderDetailsDTO>(item);
+				orderdetail.OrderProducts = _mapper.Map<List<OrderProductDTO>>(item.Order.OrderProducts);
+				orderdetails.Add(orderdetail);
+			}
+			return orderdetails;
+		}
 	}
 }

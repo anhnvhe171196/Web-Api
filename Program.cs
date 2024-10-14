@@ -33,6 +33,7 @@ namespace ProjectApi
 			builder.Services.AddScoped<IAdminActionRepository, AdminActionService>();
 			builder.Services.AddScoped<IManagerActionRepository, ManagerActionService>();
 			builder.Services.AddScoped<IUserActionRepository, UserActionService>();
+			builder.Services.AddScoped<IOrderRepository, OrderService>();
 			builder.Services.AddHttpContextAccessor();
 
 			builder.Services.AddAuthorization(options =>
@@ -54,7 +55,7 @@ namespace ProjectApi
 			// Configure Swagger
 			builder.Services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web Api Deme", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web Api Demo", Version = "v1" });
 
 				// Configure the security scheme
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

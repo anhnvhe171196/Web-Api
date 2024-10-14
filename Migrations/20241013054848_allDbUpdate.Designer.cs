@@ -12,8 +12,8 @@ using ProjectWebApi.Data;
 namespace ProjectApi.Migrations
 {
     [DbContext(typeof(MyOnlineShopContext))]
-    [Migration("20241009080035_updateinvoice")]
-    partial class updateinvoice
+    [Migration("20241013054848_allDbUpdate")]
+    partial class allDbUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,11 +120,14 @@ namespace ProjectApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Discount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -135,6 +138,10 @@ namespace ProjectApi.Migrations
 
                     b.Property<DateTime?>("RequireDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderId");
 
@@ -192,20 +199,17 @@ namespace ProjectApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<float?>("Discount")
-                        .HasColumnType("real");
-
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<float?>("UnitPrice")
-                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -287,6 +291,12 @@ namespace ProjectApi.Migrations
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TwoFactorSecret")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

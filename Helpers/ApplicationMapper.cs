@@ -18,9 +18,12 @@ namespace ProjectApi.Helper
 			CreateMap<Manager, ManagerInfoDTO>().ReverseMap();
 			CreateMap<Customer, CustomerInfoDTO>().ReverseMap();
 			CreateMap<Invoice, InvoiceDTO>().ReverseMap();
+			CreateMap<OrderDetail, OrderDTO>().ReverseMap();
 			CreateMap<User, UserInfoDTO>().ReverseMap();
 			CreateMap<Customer, UserInfoDTO>().ReverseMap();
 			CreateMap<Invoice, InvoiceDTO>().ReverseMap();
+			CreateMap<OrderDetail, OrderDetailsDTO>().ReverseMap();
+			CreateMap<OrderProduct, OrderProductDTO>().ReverseMap();
 
 			CreateMap<ImportProduct, ImportProductDTO>().ReverseMap();
 			CreateMap<Product, ProductDetailDTO>()
